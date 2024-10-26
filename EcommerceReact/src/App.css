@@ -1,0 +1,75 @@
+/* Navbar container */
+.navContainer {
+  width: 100%;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #1f1f1f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.aLink {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  margin: 0 1rem;
+  transition: color 0.3s ease;
+}
+
+.aLink:hover {
+  color: #ff9800;
+}
+
+/* Cart widget container */
+.cartWidgetContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cartWidgetContainer:hover {
+  transform: scale(1.1);
+}
+
+.cartIcon {
+  width: 2rem;
+  height: auto;
+}
+
+.cartCounter {
+  color: #ff3e3e;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+/* Item List Container */
+.itemListContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.itemListGreeting {
+  color: #333;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.itemListText {
+  color: #555;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
