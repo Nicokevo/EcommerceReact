@@ -1,57 +1,29 @@
-/* Navbar container */
+/* App.css */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .navContainer {
-  width: 100%;
-  padding: 1.5rem 3rem;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: #1f1f1f;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #1f1f1f; /* Color de fondo del navbar */
 }
 
 .aLink {
-  color: #ffffff;
+  color: #ffffff; /* Color de los enlaces */
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   text-decoration: none;
   margin: 0 1rem;
   transition: color 0.3s ease;
 }
 
 .aLink:hover {
-  color: #ff9800;
+  color: #ff9800; /* Color de los enlaces al pasar el ratón */
 }
 
-/* Cart widget container */
-.cartWidgetContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.cartWidgetContainer:hover {
-  transform: scale(1.1);
-}
-
-.cartIcon {
-  width: 2rem;
-  height: auto;
-}
-
-.cartCounter {
-  color: #ff3e3e;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-left: 0.5rem;
-}
-
-/* Item List Container */
 .itemListContainer {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 5rem auto;
   padding: 2rem;
   background-color: #f8f8f8;
   border-radius: 12px;
@@ -59,17 +31,53 @@
   text-align: center;
 }
 
-.itemListGreeting {
-  color: #333;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan */
+  justify-content: center; /* Centra las tarjetas */
+  gap: 20px; /* Espacio entre tarjetas */
 }
 
-.itemListText {
-  color: #555;
-  font-size: 1.3rem;
-  margin-top: 0.5rem;
-  line-height: 1.6;
+.cardComponent {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  height: 350px; /* Altura fija para todas las tarjetas */
+  width: 250px; /* Ancho fijo para todas las tarjetas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardImage {
+  width: 100%;
+  max-height: 150px; /* Limitar altura de la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+  margin-bottom: 10px; /* Espacio debajo de la imagen */
+}
+
+/* Estilos para el modal */
+.modalImage {
+  width: 100%; /* Ancho completo del modal */
+  max-height: 300px; /* Limitar altura del modal */
+  object-fit: cover; /* Mantener relación de aspecto */
+  margin-bottom: 15px; /* Espacio debajo de la imagen del modal */
+}
+
+.modal-content {
+  text-align: center; /* Alinear contenido en el centro */
+}
+/* App.css */
+.btn {
+  background-color: #ff9800; /* Color de fondo del botón */
+  color: #fff; /* Color del texto */
+  padding: 10px 20px; /* Espaciado del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor de puntero */
+}
+
+.btn:hover {
+  background-color: #e68a00; /* Color al pasar el ratón */
 }
