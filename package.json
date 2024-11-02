@@ -6,16 +6,19 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "panda": "panda",
+    "panda:watch": "panda watch"
   },
   "dependencies": {
     "app-react": "file:",
+    "panda-css": "^1.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@pandacss/dev": "^0.47.0",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
