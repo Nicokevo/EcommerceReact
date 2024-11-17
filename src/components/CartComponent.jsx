@@ -1,7 +1,7 @@
-import { css } from '../../styled-system/css'
-import { flex } from '../../styled-system/patterns'
+import { css } from '../../styled-system/css';
+import { flex } from '../../styled-system/patterns';
 
-const CartWidgetComponent = ({ counter = 0 }) => {
+const CartComponent = ({ counter = 0 }) => {
   return (
     <div className={flex({ 
       alignItems: 'center', 
@@ -31,7 +31,7 @@ const CartWidgetComponent = ({ counter = 0 }) => {
         {counter}
       </span>
     </div>
-  )
-}
+  );
+};
 
-export default CartWidgetComponent
+export default CartComponent;

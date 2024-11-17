@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-const BuyButtonComponent = ({ onClick, text = "Buy" }) => {
+const ButtonComponent = ({ onClick, text = "Buy" }) => {
   return (
     <button 
       onClick={onClick}
@@ -20,4 +20,4 @@ const BuyButtonComponent = ({ onClick, text = "Buy" }) => {
   );
 };
 
-export default BuyButtonComponent;
+export default ButtonComponent;

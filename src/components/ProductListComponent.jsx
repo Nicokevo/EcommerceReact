@@ -1,39 +1,73 @@
+import { useState } from 'react';
 import { css } from '../../styled-system/css';
 import { grid } from '../../styled-system/patterns';
 import ProductCardComponent from './ProductCardComponent';
+import products from '../data/products';
+import { CategoryEnum } from './NavbarComponent';
+
+const ProductListComponent = ({ addToCart, removeFromCart }) => {
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
 
+  const filteredProducts = selectedCategory
+    ? products.filter(product => product.category === selectedCategory)
+    : products;
 
-let currentId = 1;
-const generateId = () => currentId++;
 
-const createProduct = (name, price, image) => ({
-  id: generateId(),
-  name,
-  price,
-  image,
-  description: `Detailed description of ${name}`, // Dynamic description
-});
-const products = [
-  createProduct("Patagonia Men's Classic Retro-X Ja", 19.99, '/src/assets/face1.png?height=200&width=200'),
-  createProduct("North Face Men's ThermoBall Eco J", 29.99, '/src/assets/face2.png?height=200&width=200'),
-  createProduct("Columbia Women's Heavenly Long Hoo", 39.99, '/src/assets/face3.jpg?height=200&width=200'),
-  createProduct("Arc'teryx Men's Beta AR Jacket     ", 49.99, '/src/assets/face4.jpg?height=200&width=200'),
-  createProduct("Marmot Men's PreCip Lightweight Ja", 59.99, '/src/assets/face5.png?height=200&width=200'),
-  createProduct("Canada Goose Women's Rossclair Par", 69.99, '/src/assets/face4.jpg?height=200&width=200'),
-  createProduct("Helly Hansen Men's Seven J Waterproof", 79.99, '/src/assets/face5.png?height=200&width=200'),
-  createProduct("Mountain Hardwear Men's Stretchdown ", 89.99, '/src/assets/face1.png?height=200&width=200')
-];
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
 
-const ProductListComponent = ({ addToCart }) => {
   return (
     <div className={css({ padding: '6' })}>
       <h2 className={css({ fontSize: '3xl', fontWeight: 'bold', marginBottom: '6', textAlign: 'center' })}>
-      Our best-selling products
+        Our Products
       </h2>
+
+      {/* Filtro de categorías */}
+      <div className={css({ marginBottom: '6', textAlign: 'center' })}>
+        <button 
+          className={css({ marginRight: '4', padding: '2', background: selectedCategory === null ? 'gray.600' : 'transparent' })}
+          onClick={() => handleCategoryChange(null)}
+        >
+          All Products
+        </button>
+        <button 
+          className={css({ marginRight: '4', padding: '2', background: selectedCategory === CategoryEnum.BEST_SELLERS ? 'gray.600' : 'transparent' })}
+          onClick={() => handleCategoryChange(CategoryEnum.BEST_SELLERS)}
+        >
+          Best Sellers
+        </button>
+        <button 
+          className={css({ marginRight: '4', padding: '2', background: selectedCategory === CategoryEnum.OFFERS ? 'gray.600' : 'transparent' })}
+          onClick={() => handleCategoryChange(CategoryEnum.OFFERS)}
+        >
+          Offers
+        </button>
+        <button 
+          className={css({ marginRight: '4', padding: '2', background: selectedCategory === CategoryEnum.JACKETS ? 'gray.600' : 'transparent' })}
+          onClick={() => handleCategoryChange(CategoryEnum.JACKETS)}
+        >
+          Jackets
+        </button>
+        <button 
+          className={css({ marginRight: '4', padding: '2', background: selectedCategory === CategoryEnum.COATS ? 'gray.600' : 'transparent' })}
+          onClick={() => handleCategoryChange(CategoryEnum.COATS)}
+        >
+          Coats
+        </button>
+      </div>
+
+
       <div className={grid({ columns: { base: 1, md: 2, lg: 3, xl: 4 }, gap: '6' })}>
-        {products.map(product => (
-          <ProductCardComponent key={product.id} product={product} addToCart={addToCart} />
+        {filteredProducts.map(product => (
+          <ProductCardComponent 
+            key={product.id} 
+            product={product} 
+            addToCart={addToCart} 
+            removeFromCart={removeFromCart} 
+          />
         ))}
       </div>
     </div>
