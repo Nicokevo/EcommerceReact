@@ -1,187 +1,171 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { css } from '../../styled-system/css';
 import ButtonComponent from './ButtonComponent';
 
-const ProductCardComponent = ({ product, addToCart, removeFromCart }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(product);
-    setIsModalOpen(false);
   };
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.id);
-    setIsModalOpen(false);
   };
 
   return (
-    <div className={css({
-      border: '1px solid',
-      borderColor: 'gray.200',
-      borderRadius: 'md',
-      overflow: 'hidden',
-      width: '250px',
-      transition: 'all 0.2s',
-      _hover: { boxShadow: 'lg' }
-    })}>
-      <img 
-        src={product.image} 
-        alt={product.name} 
-        className={css({ width: '100%', height: '150px', objectFit: 'cover' })} 
-      />
-      <div className={css({ padding: '3' })}>
-        <h3 className={css({ fontSize: 'lg', fontWeight: 'bold', marginBottom: '1' })}>{product.name}</h3>
-        <p className={css({ color: 'gray.600', marginBottom: '3', fontSize: 'sm' })}>${product.price.toFixed(2)}</p>
-        
-        {product.stock > 0 ? (
-          <p className={css({ color: 'green.600', fontSize: 'sm', marginBottom: '3' })}>
-            Stock disponible: {product.stock}
-          </p>
-        ) : (
-          <p className={css({ color: 'red.600', fontSize: 'sm', marginBottom: '3' })}>
-            Sin stock
-          </p>
-        )}
-
-        <button 
-          onClick={() => setIsModalOpen(true)}
+    <div 
+      className={css({
+        width: '250px', // Tamaño fijo
+        backgroundColor: 'white',
+        borderRadius: 'lg',
+        border: '1px solid #e0e0e0',
+        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+        position: 'relative',
+        margin: '20px',
+        minHeight: '450px', // Altura fija de la card
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden', // Evita que el contenido se desborde
+        transition: 'transform 0.3s ease', // Transición suave solo en el escalado
+        '&:hover': {
+          transform: 'scale(1.05)', // Efecto hover en la card sin modificar altura
+        }
+      })}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Contenedor de la imagen */}
+      <div className={css({
+        width: '100%',
+        height: '250px', // Altura fija para la imagen
+        overflow: 'hidden',
+        borderTopLeftRadius: 'lg',
+        borderTopRightRadius: 'lg',
+      })}>
+        <img
+          src={product.image}
+          alt={product.name}
           className={css({
-            backgroundColor: 'blue.500',
-            color: 'white',
-            padding: '2',
-            borderRadius: 'md',
-            width: 'full',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-            transition: 'background-color 0.3s, transform 0.2s',
-            _hover: { backgroundColor: 'blue.600', transform: 'scale(1.05)' },
-            _active: { backgroundColor: 'blue.700', transform: 'scale(0.95)' },
-          })}>
-          View Details
-        </button>
-        
-        <ButtonComponent 
-          text='Add to cart'
-          onClick={handleAddToCart} 
-          disabled={product.stock === 0}
-          className={css({
-            backgroundColor: product.stock > 0 ? 'green.500' : 'gray.400',
-            color: 'white',
-            padding: '2',
-            borderRadius: 'md',
-            width: 'full',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-            marginTop: '2',
-            transition: 'background-color 0.3s, transform 0.2s',
-            _hover: { backgroundColor: product.stock > 0 ? 'green.600' : 'gray.400', transform: 'scale(1.05)' },
-            _active: { backgroundColor: product.stock > 0 ? 'green.700' : 'gray.400', transform: 'scale(0.95)' },
-          })}
-        />
-        
-        <ButtonComponent 
-          text='Remove from cart'
-          onClick={handleRemoveFromCart} 
-          className={css({
-            backgroundColor: 'red',
-            color: 'white',
-            padding: '2',
-            borderRadius: 'md',
-            width: 'full',
-            fontSize: 'sm',
-            fontWeight: 'bold',
-            marginTop: '2',
-            transition: 'background-color 0.3s, transform 0.2s',
-            _hover: { backgroundColor: 'red.600', transform: 'scale(1.05)' },
-            _active: { backgroundColor: 'red.700', transform: 'scale(0.95)' },
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.05)', // Efecto de zoom en la imagen
+            }
           })}
         />
       </div>
 
-      {isModalOpen && (
-        <div className={css({
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          right: '0',
-          bottom: '0',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: '50'
+      {/* Contenedor del contenido */}
+      <div className={css({
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        flex: '1',
+      })}>
+        <h3 className={css({
+          fontSize: '1.25rem',
+          fontWeight: 'bold',
+          color: '#333',
+          marginBottom: '5px',
+        })}>{product.name}</h3>
+
+        <p className={css({
+          fontSize: '1.25rem',
+          fontWeight: 'bold',
+          color: '#2c5282',
+        })}>${product.price.toFixed(2)}</p>
+
+        <p className={css({
+          fontSize: '0.9rem',
+          color: product.stock > 0 ? 'green' : 'red',
         })}>
-          <div className={css({
-            backgroundColor: 'white',
-            padding: '6',
-            borderRadius: 'md',
-            maxWidth: '400px',
-            width: '90%',
-            maxHeight: '80vh',
-            overflowY: 'auto'
-          })}>
-            <h2 className={css({ fontSize: '2xl', fontWeight: 'bold', marginBottom: '4' })}>{product.name}</h2>
-            <p className={css({ marginBottom: '4' })}>{product.description}</p>
-            <img src={product.image} 
-                 alt={product.name} 
-                 className={css({ width: '100%', height: '100%', objectFit: 'cover' })} 
-            />
-            <ButtonComponent 
-              onClick={handleAddToCart}
-              text='Add to cart'
-              disabled={product.stock === 0}
-              className={css({
-                backgroundColor: product.stock > 0 ? 'green.500' : 'gray.400',
-                color: 'white',
-                padding: '2',
-                borderRadius: 'md',
-                width: 'full',
-                fontSize: 'sm',
-                fontWeight: 'bold',
-                marginTop: '4',
-                transition: 'background-color 0.3s, transform 0.2s',
-                _hover: { backgroundColor: product.stock > 0 ? 'green.600' : 'gray.400', transform: 'scale(1.05)' },
-                _active: { backgroundColor: product.stock > 0 ? 'green.700' : 'gray.400', transform: 'scale(0.95)' },
-              })}
-            />
-            <ButtonComponent 
-              text='Remove from cart'
-              onClick={handleRemoveFromCart}
-              className={css({
-                backgroundColor: 'red',
-                color: 'white',
-                padding: '2',
-                borderRadius: 'md',
-                width: 'full',
-                fontSize: 'sm',
-                fontWeight: 'bold',
-                marginTop: '4',
-                transition: 'background-color 0.3s, transform 0.2s',
-                _hover: { backgroundColor: 'red.600', transform: 'scale(1.05)' },
-                _active: { backgroundColor: 'red.700', transform: 'scale(0.95)' },
-              })}
-            />
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className={css({
-                backgroundColor: 'red.500',
-                color: 'white',
-                padding: '2',
-                borderRadius: 'md',
-                width: '100%',
-                fontSize: 'sm',
-                fontWeight: 'bold',
-                marginTop: '2',
-                transition: 'background-color 0.3s, transform 0.2s',
-                _hover: { backgroundColor: 'red.600', transform: 'scale(1.05)' },
-                _active: { backgroundColor: 'red.700', transform: 'scale(0.95)' },
-              })}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+          {product.stock > 0 ? `In stock: ${product.stock}` : 'Sold out'}
+        </p>
+      </div>
+
+      {/* Contenedor de los botones */}
+      <div className={css({
+        position: 'absolute',
+        bottom: '20px', // Los botones estarán en la parte inferior
+        left: '50%',
+        transform: `translateX(-50%) ${isHovered ? 'translateY(0)' : 'translateY(20px)'}`, 
+        display: 'flex',
+        flexDirection: 'row', // Los botones se alinean horizontalmente
+        gap: '10px',
+        opacity: isHovered ? 1 : 0,
+        visibility: isHovered ? 'visible' : 'hidden', 
+        transition: 'all 0.3s ease',
+      })}>
+
+        <Link 
+          to={`/product/${product.id}`}
+          className={css({
+            textDecoration: 'none',
+          })}
+        >
+          <ButtonComponent 
+            text="View"
+            color="blue"
+            size="small"
+            className={css({
+              width: '40px', // Tamaño pequeño
+              height: '40px', // Botón cuadrado
+              borderRadius: '6px',
+              backgroundColor: '#4299e1',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#3182ce',
+              }
+            })}
+          />
+        </Link>
+
+        {isInCart ? (
+          <ButtonComponent 
+            text="Remove"
+            onClick={handleRemoveFromCart}
+            color="red"
+            size="small"
+            className={css({
+              width: '40px', // Tamaño pequeño
+              height: '40px', // Botón cuadrado
+              borderRadius: '6px',
+              backgroundColor: '#fc8181',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#f56565',
+              }
+            })}
+          />
+        ) : (
+          <ButtonComponent 
+            text="Add"
+            onClick={handleAddToCart}
+            disabled={product.stock === 0}
+            color="green"
+            size="small"
+            className={css({
+              width: '40px', // Tamaño pequeño
+              height: '40px', // Botón cuadrado
+              borderRadius: '6px',
+              backgroundColor: '#48bb78',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#38a169',
+              },
+              '&:disabled': {
+                backgroundColor: '#cbd5e0',
+                cursor: 'not-allowed',
+              }
+            })}
+          />
+        )}
+      </div>
     </div>
   );
 };
