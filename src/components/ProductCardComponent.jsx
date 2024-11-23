@@ -17,29 +17,29 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
   return (
     <div 
       className={css({
-        width: '250px', // Tamaño fijo
+        width: '250px', 
         backgroundColor: 'white',
         borderRadius: 'lg',
         border: '1px solid #e0e0e0',
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
         position: 'relative',
         margin: '20px',
-        minHeight: '450px', // Altura fija de la card
+        minHeight: '450px',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden', // Evita que el contenido se desborde
-        transition: 'transform 0.3s ease', // Transición suave solo en el escalado
+        overflow: 'hidden', 
+        transition: 'transform 0.3s ease', 
         '&:hover': {
-          transform: 'scale(1.05)', // Efecto hover en la card sin modificar altura
+          transform: 'scale(1.05)', 
         }
       })}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Contenedor de la imagen */}
+      {}
       <div className={css({
         width: '100%',
-        height: '250px', // Altura fija para la imagen
+        height: '250px', 
         overflow: 'hidden',
         borderTopLeftRadius: 'lg',
         borderTopRightRadius: 'lg',
@@ -53,13 +53,13 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
             objectFit: 'cover',
             transition: 'transform 0.3s ease',
             '&:hover': {
-              transform: 'scale(1.05)', // Efecto de zoom en la imagen
+              transform: 'scale(1.05)', 
             }
           })}
         />
       </div>
 
-      {/* Contenedor del contenido */}
+      {}
       <div className={css({
         padding: '20px',
         display: 'flex',
@@ -88,14 +88,14 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         </p>
       </div>
 
-      {/* Contenedor de los botones */}
+      {}
       <div className={css({
         position: 'absolute',
-        bottom: '20px', // Los botones estarán en la parte inferior
+        bottom: '20px', 
         left: '50%',
         transform: `translateX(-50%) ${isHovered ? 'translateY(0)' : 'translateY(20px)'}`, 
         display: 'flex',
-        flexDirection: 'row', // Los botones se alinean horizontalmente
+        flexDirection: 'row', 
         gap: '10px',
         opacity: isHovered ? 1 : 0,
         visibility: isHovered ? 'visible' : 'hidden', 
@@ -113,8 +113,8 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
             color="blue"
             size="small"
             className={css({
-              width: '40px', // Tamaño pequeño
-              height: '40px', // Botón cuadrado
+              width: '40px', 
+              height: '40px', 
               borderRadius: '6px',
               backgroundColor: '#4299e1',
               color: 'white',
@@ -132,8 +132,8 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
             color="red"
             size="small"
             className={css({
-              width: '40px', // Tamaño pequeño
-              height: '40px', // Botón cuadrado
+              width: '40px', 
+              height: '40px', 
               borderRadius: '6px',
               backgroundColor: '#fc8181',
               color: 'white',
@@ -150,8 +150,8 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
             color="green"
             size="small"
             className={css({
-              width: '40px', // Tamaño pequeño
-              height: '40px', // Botón cuadrado
+              width: '40px', 
+              height: '40px', 
               borderRadius: '6px',
               backgroundColor: '#48bb78',
               color: 'white',

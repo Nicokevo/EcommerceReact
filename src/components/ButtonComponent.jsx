@@ -1,6 +1,5 @@
 import { cva } from '../../styled-system/css';
 
-// Definición de las variantes de botón
 const buttonStyles = cva({
   base: {
     fontWeight: 'semibold',
@@ -66,12 +65,12 @@ const buttonStyles = cva({
       small: { px: '3', py: '1', fontSize: 'sm' },
       medium: { px: '4', py: '2', fontSize: 'md' },
       large: { px: '6', py: '3', fontSize: 'lg' },
-      extraSmall: { px: '2', py: '1', fontSize: 'xs' }, // tamaño extra pequeño
+      extraSmall: { px: '2', py: '1', fontSize: 'xs' }, 
     },
     shape: {
-      rounded: { borderRadius: 'full' }, // Botón completamente redondeado
-      square: { borderRadius: '0' }, // Botón cuadrado
-      pill: { borderRadius: '9999px' }, // Botón en forma de píldora (más sutil que full)
+      rounded: { borderRadius: 'full' }, 
+      square: { borderRadius: '0' }, 
+      pill: { borderRadius: '9999px' }, 
     },
   },
   defaultVariants: {

@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-// Función para convertir el nombre a mayúsculas
 const toUpperCase = (str) => str.toUpperCase();
 
 export const CategoryEnum = Object.freeze({
@@ -16,7 +15,7 @@ export const CategoryEnum = Object.freeze({
 
 const createProduct = (name, price, image, stock, category) => ({
   id: uuidv4(),
-  name: toUpperCase(name),  // Convertir el nombre a mayúsculas
+  name: toUpperCase(name),  
   price,
   image,
   description: `Detailed description of ${name}`, 
@@ -37,11 +36,8 @@ export const products = [
 
 export const getProduct = (id) => {
   return new Promise((resolve, reject) => {
-    console.log('Fetching product with ID:', id);  // Debugging line to check the id
-
     setTimeout(() => {
       const product = products.find((item) => item.id === id);
-      console.log('Found product:', product);  // Debugging line to check if product was found
       if (product) {
         resolve(product);
       } else {

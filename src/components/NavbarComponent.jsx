@@ -9,7 +9,7 @@ function NavbarComponent({ counter }) {
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null); // Ref para el dropdown
+  const dropdownRef = useRef(null);
 
   const categories = [
     { id: 'All', name: 'All' },
@@ -33,21 +33,15 @@ function NavbarComponent({ counter }) {
       navigate(`/category/${selectedCategory}`);
     }
 
-    setIsDropdownOpen(false); // Cerrar el dropdown
+    setIsDropdownOpen(false);
   };
-
-  // Hook para detectar clics fuera del dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false); // Cerrar el dropdown si el clic fue fuera
+        setIsDropdownOpen(false); 
       }
     };
-
-    // Añadir el event listener al hacer clic en cualquier parte de la página
     document.addEventListener('mousedown', handleClickOutside);
-
-    // Limpiar el listener cuando el componente se desmonte
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -61,14 +55,14 @@ function NavbarComponent({ counter }) {
 
   return (
     <nav className={css({
-      backgroundColor: '#333', // Color más oscuro para el fondo
+      backgroundColor: '#333',
       color: 'white',
       padding: '10px 20px',
-      borderBottom: '1px solid #444', // Borde más sutil
-      width: '100%', // Asegurar que el navbar ocupe el 100% del ancho
+      borderBottom: '1px solid #444', 
+      width: '100%', 
       position: 'sticky',
       top: '0',
-      zIndex: '1000', // Bordes redondeados solo en la parte inferiorBordes redondeados para todo el navbar
+      zIndex: '1000', 
     })}>
       <div className={flex({
         justifyContent: 'space-between',
@@ -84,7 +78,7 @@ function NavbarComponent({ counter }) {
             color: 'white',
             textDecoration: 'none',
             '&:hover': {
-              color: '#e1e1e1', // Color suave al pasar el mouse
+              color: '#e1e1e1', 
             },
           })}>
           Drift Style
@@ -104,7 +98,7 @@ function NavbarComponent({ counter }) {
                 color: 'white',
                 cursor: 'pointer',
                 fontWeight: '500',
-                borderRadius: '20px', // Bordes redondeados para el botón
+                borderRadius: '20px', 
                 transition: 'background-color 0.3s ease, transform 0.3s ease',
                 '&:hover': {
                   backgroundColor: '#444',
@@ -117,7 +111,7 @@ function NavbarComponent({ counter }) {
 
             {isDropdownOpen && (
               <div
-                ref={dropdownRef} // Asignar el ref al contenedor del dropdown
+                ref={dropdownRef} 
                 className={css({
                   position: 'absolute',
                   top: '100%',
@@ -127,7 +121,7 @@ function NavbarComponent({ counter }) {
                   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                   zIndex: '10',
                   borderRadius: '20px',
-                  borderColor:'#000', // Bordes redondeados para el dropdown
+                  borderColor:'#000',
                   padding: '10px 0',
                 })}
               >
@@ -143,7 +137,7 @@ function NavbarComponent({ counter }) {
                         className={css({
                           display: 'block',
                           padding: '10px 18px',
-                          backgroundColor: selectedCategory === category.id ? '#f2f2f2' : 'transparent', // Color suave al seleccionar
+                          backgroundColor: selectedCategory === category.id ? '#f2f2f2' : 'transparent',
                           color: selectedCategory === category.id ? '#333' : '#666',
                           border: 'none',
                           cursor: 'pointer',

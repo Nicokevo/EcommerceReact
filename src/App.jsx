@@ -11,16 +11,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {  
   const { addToCart, removeFromCart, getCartSize, cart, updateCartItemQuantity } = useCart(); 
-  const cartSize = getCartSize(); // Obtén el tamaño del carrito
-  const [isCartVisible, setIsCartVisible] = useState(false); // Estado para mostrar/ocultar el carrito
+  const cartSize = getCartSize();
+  const [isCartVisible, setIsCartVisible] = useState(false); 
 
-  // Función para abrir el carrito
+
   const toggleCart = () => setIsCartVisible((prevState) => !prevState);
 
-  // Función para cerrar el carrito
   const closeCart = () => setIsCartVisible(false);
 
-  // Simula la compra (limpia el carrito)
   const handleBuy = () => {
     alert('Compra realizada con éxito!');
     cart.forEach(item => removeFromCart(item.id));
@@ -61,10 +59,10 @@ function App() {
               maxWidth: '500px',
               boxShadow: 'lg',
             })}>
-              <h2 className={css({ textAlign: 'center', marginBottom: '4' })}>Carrito de Compras</h2>
+              <h2 className={css({ textAlign: 'center', marginBottom: '4' })}>Shopping Cart</h2>
               <div>
                 {cart.length === 0 ? (
-                  <p>No hay productos en el carrito</p>
+                  <p>There are no products in the cart</p>
                 ) : (
                   cart.map((item) => (
                     <div key={item.id} className={css({ marginBottom: '4', display: 'flex', justifyContent: 'space-between' })}>
@@ -74,7 +72,7 @@ function App() {
                         <span>{item.quantity}</span>
                         <button onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}>+</button>
                       </div>
-                      <button onClick={() => removeFromCart(item.id)} className={css({ marginLeft: '4', color: 'red' })}>Eliminar</button>
+                      <button onClick={() => removeFromCart(item.id)} className={css({ marginLeft: '4', color: 'red' })}>Delete</button>
                     </div>
                   ))
                 )}
@@ -82,10 +80,10 @@ function App() {
 
               <div className={css({ textAlign: 'center' })}>
                 <button onClick={handleBuy} className={css({ backgroundColor: 'green.500', color: 'white', padding: '2', borderRadius: 'md' })}>
-                  Comprar
+                  Buy
                 </button>
                 <button onClick={closeCart} className={css({ backgroundColor: 'gray.500', color: 'white', padding: '2', borderRadius: 'md', marginLeft: '4' })}>
-                  Cerrar
+                  Close
                 </button>
               </div>
             </div>
