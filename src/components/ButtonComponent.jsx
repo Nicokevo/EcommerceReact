@@ -12,53 +12,41 @@ const buttonStyles = cva({
   },
   variants: {
     color: {
-      blue: {
-        bg: 'blue.500',
+      primary: {
+        bg: '#3498db',
         color: 'white',
-        _hover: { bg: 'blue.600' },
-        _active: { bg: 'blue.700' },
+        _hover: { bg: '#2980b9' },
+        _active: { bg: '#2573a7' },
       },
-      red: {
-        bg: 'red.500',
+      secondary: {
+        bg: '#2ecc71',
         color: 'white',
-        _hover: { bg: 'red.600' },
-        _active: { bg: 'red.700' },
+        _hover: { bg: '#27ae60' },
+        _active: { bg: '#229954' },
       },
-      green: {
-        bg: 'green.500',
+      accent: {
+        bg: '#e74c3c',
         color: 'white',
-        _hover: { bg: 'green.600' },
-        _active: { bg: 'green.700' },
+        _hover: { bg: '#c0392b' },
+        _active: { bg: '#a93226' },
       },
-      gray: {
-        bg: 'gray.500',
+      neutral: {
+        bg: '#95a5a6',
         color: 'white',
-        _hover: { bg: 'gray.600' },
-        _active: { bg: 'gray.700' },
+        _hover: { bg: '#7f8c8d' },
+        _active: { bg: '#707b7c' },
       },
-      yellow: {
-        bg: 'yellow.500',
-        color: 'white',
-        _hover: { bg: 'yellow.600' },
-        _active: { bg: 'yellow.700' },
+      light: {
+        bg: '#ecf0f1',
+        color: '#2c3e50',
+        _hover: { bg: '#bdc3c7' },
+        _active: { bg: '#a6acaf' },
       },
-      purple: {
-        bg: 'purple.500',
+      dark: {
+        bg: '#34495e',
         color: 'white',
-        _hover: { bg: 'purple.600' },
-        _active: { bg: 'purple.700' },
-      },
-      teal: {
-        bg: 'teal.500',
-        color: 'white',
-        _hover: { bg: 'teal.600' },
-        _active: { bg: 'teal.700' },
-      },
-      orange: {
-        bg: 'orange.500',
-        color: 'white',
-        _hover: { bg: 'orange.600' },
-        _active: { bg: 'orange.700' },
+        _hover: { bg: '#2c3e50' },
+        _active: { bg: '#273747' },
       },
     },
     size: {
@@ -68,25 +56,25 @@ const buttonStyles = cva({
       extraSmall: { px: '2', py: '1', fontSize: 'xs' }, 
     },
     shape: {
-      rounded: { borderRadius: 'full' }, 
-      square: { borderRadius: '0' }, 
-      pill: { borderRadius: '9999px' }, 
+      rounded: { borderRadius: 'md' },
+      square: { borderRadius: '0' },
+      pill: { borderRadius: '9999px' },
     },
   },
   defaultVariants: {
-    color: 'blue',
-    size: 'small',
-    shape: 'pill',
+    color: 'primary',
+    size: 'medium',
+    shape: 'rounded',
   },
 });
 
 const ButtonComponent = ({ 
   onClick, 
-  text = "Buy", 
-  color = "blue", 
+  text = "Button", 
+  color = "primary", 
   disabled = false, 
-  size = 'small',
-  shape = 'pill', 
+  size = 'medium',
+  shape = 'rounded', 
   className,
   ...props 
 }) => {

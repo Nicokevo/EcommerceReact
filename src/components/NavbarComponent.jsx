@@ -1,15 +1,14 @@
 import { css } from '../../styled-system/css';
 import { flex } from '../../styled-system/patterns';
-import CartComponent from './CartComponent';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import CartPanel from './CartPanel';  
 
 function NavbarComponent({ counter }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const categories = [
     { id: 'All', name: 'All' },
@@ -23,146 +22,108 @@ function NavbarComponent({ counter }) {
     { id: 'waterproof', name: 'Waterproof' },
   ];
 
-  const handleCategoryChange = (e) => {
-    const selectedCategory = e.target.value;
-    setSelectedCategory(selectedCategory);
+  const handleCategoryChange = (id) => {
+    setSelectedCategory(id);
 
-    if (selectedCategory === 'All') {
-      navigate('/');
+    if (id === 'All') {
+      navigate('/');  // Navegar a la página principal
     } else {
-      navigate(`/category/${selectedCategory}`);
+      navigate(`/category/${id}`);  // Navegar a la página de la categoría específica
     }
-
-    setIsDropdownOpen(false);
   };
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false); 
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     if (location.pathname === '/') {
-      setSelectedCategory('');
+      setSelectedCategory('');  // Si estamos en la página principal, restablecer la categoría seleccionada
     }
   }, [location]);
 
   return (
-    <nav className={css({
-      backgroundColor: '#333',
-      color: 'white',
-      padding: '10px 20px',
-      borderBottom: '1px solid #444', 
-      width: '100%', 
-      position: 'sticky',
-      top: '0',
-      zIndex: '1000', 
-    })}>
-      <div className={flex({
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      })}>
-        <NavLink 
-          to="/" 
-          className={css({ 
-            fontSize: '2xl', 
+    <nav
+      className={css({
+        backgroundColor: '#333',
+        color: 'white',
+        padding: '10px 20px',
+        borderBottom: '1px solid #444',
+        width: '100%',
+        position: 'sticky',
+        top: '0',
+        zIndex: '1000',
+      })}
+    >
+      <div
+        className={flex({
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          maxWidth: '1200px',
+          margin: '0 auto',
+        })}
+      >
+        <NavLink
+          to="/"
+          className={css({
+            fontSize: '2xl',
             fontWeight: 'bold',
             color: 'white',
             textDecoration: 'none',
             '&:hover': {
-              color: '#e1e1e1', 
+              color: '#e1e1e1',
             },
-          })}>
+          })}
+        >
           Drift Style
         </NavLink>
 
         <div className={flex({ alignItems: 'center', gap: '20px' })}>
-          <div className={css({
-            position: 'relative',
-            display: 'inline-block',
-          })}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className={css({
-                padding: '8px 18px',
-                backgroundColor: 'transparent',
-                border: '1px solid #666',
-                color: 'white',
-                cursor: 'pointer',
-                fontWeight: '500',
-                borderRadius: '20px', 
-                transition: 'background-color 0.3s ease, transform 0.3s ease',
-                '&:hover': {
-                  backgroundColor: '#444',
-                  transform: 'scale(1.05)',
-                },
-              })}
-            >
-              Categories
-            </button>
+          {/* Dropdown para seleccionar categoría */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => handleCategoryChange(e.target.value)}
+            className={css({
+              padding: '8px 18px',
+              backgroundColor: '#444',
+              color: 'white',
+              border: '1px solid #666',
+              borderRadius: '20px',
+              cursor: 'pointer',
+              fontWeight: '500',
+              '&:hover': {
+                backgroundColor: '#555',
+              },
+            })}
+          >
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
 
-            {isDropdownOpen && (
-              <div
-                ref={dropdownRef} 
-                className={css({
-                  position: 'absolute',
-                  top: '100%',
-                  left: '0',
-                  width: '220px',
-                  backgroundColor: '#fff',
-                  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
-                  zIndex: '10',
-                  borderRadius: '20px',
-                  borderColor:'#000',
-                  padding: '10px 0',
-                })}
-              >
-                <ul className={css({
-                  margin: '0',
-                  padding: '0',
-                  listStyle: 'none',
-                })}>
-                  {categories.map((category) => (
-                    <li key={category.id}>
-                      <button
-                        onClick={() => handleCategoryChange({ target: { value: category.id } })}
-                        className={css({
-                          display: 'block',
-                          padding: '10px 18px',
-                          backgroundColor: selectedCategory === category.id ? '#f2f2f2' : 'transparent',
-                          color: selectedCategory === category.id ? '#333' : '#666',
-                          border: 'none',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          width: '100%',
-                          borderRadius: '6px',
-                          transition: 'background-color 0.2s ease',
-                          '&:hover': {
-                            backgroundColor: '#f2f2f2',
-                            color: '#333',
-                          },
-                        })}
-                      >
-                        {category.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <CartComponent counter={counter} />
+          {/* Botón de carrito */}
+          <button
+            onClick={() => setIsPanelOpen(true)}
+            className={css({
+              padding: '8px 18px',
+              backgroundColor: 'transparent',
+              border: '1px solid #666',
+              color: 'white',
+              cursor: 'pointer',
+              fontWeight: '500',
+              borderRadius: '20px',
+              transition: 'background-color 0.3s ease, transform 0.3s ease',
+              '&:hover': {
+                backgroundColor: '#444',
+                transform: 'scale(1.05)',
+              },
+            })}
+          >
+            🛒 ({counter})
+          </button>
         </div>
       </div>
+
+      {/* Panel lateral de carrito */}
+      <CartPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
     </nav>
   );
 }

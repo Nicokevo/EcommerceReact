@@ -7,8 +7,10 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
   const [isHovered, setIsHovered] = useState(false);
 
   const handleAddToCart = () => {
-    addToCart(product);
+    const quantity = 1; 
+    addToCart(product, quantity); 
   };
+  
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.id);
@@ -20,7 +22,7 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         width: '250px', 
         backgroundColor: 'white',
         borderRadius: 'lg',
-        border: '1px solid #e0e0e0',
+        border: '1px solid #ecf0f1',
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
         position: 'relative',
         margin: '20px',
@@ -36,7 +38,6 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {}
       <div className={css({
         width: '100%',
         height: '250px', 
@@ -59,7 +60,6 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         />
       </div>
 
-      {}
       <div className={css({
         padding: '20px',
         display: 'flex',
@@ -70,25 +70,24 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         <h3 className={css({
           fontSize: '1.25rem',
           fontWeight: 'bold',
-          color: '#333',
+          color: '#2c3e50',
           marginBottom: '5px',
         })}>{product.name}</h3>
 
         <p className={css({
           fontSize: '1.25rem',
           fontWeight: 'bold',
-          color: '#2c5282',
+          color: '#3498db',
         })}>${product.price.toFixed(2)}</p>
 
         <p className={css({
           fontSize: '0.9rem',
-          color: product.stock > 0 ? 'green' : 'red',
+          color: product.stock > 0 ? '#2ecc71' : '#e74c3c',
         })}>
           {product.stock > 0 ? `In stock: ${product.stock}` : 'Sold out'}
         </p>
       </div>
 
-      {}
       <div className={css({
         position: 'absolute',
         bottom: '20px', 
@@ -101,7 +100,6 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         visibility: isHovered ? 'visible' : 'hidden', 
         transition: 'all 0.3s ease',
       })}>
-
         <Link 
           to={`/product/${product.id}`}
           className={css({
@@ -110,18 +108,8 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         >
           <ButtonComponent 
             text="View"
-            color="blue"
+            color="light"
             size="small"
-            className={css({
-              width: '40px', 
-              height: '40px', 
-              borderRadius: '6px',
-              backgroundColor: '#4299e1',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: '#3182ce',
-              }
-            })}
           />
         </Link>
 
@@ -129,40 +117,16 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
           <ButtonComponent 
             text="Remove"
             onClick={handleRemoveFromCart}
-            color="red"
+            color="accent"
             size="small"
-            className={css({
-              width: '40px', 
-              height: '40px', 
-              borderRadius: '6px',
-              backgroundColor: '#fc8181',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: '#f56565',
-              }
-            })}
           />
         ) : (
           <ButtonComponent 
             text="Add"
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            color="green"
+            color="secondary"
             size="small"
-            className={css({
-              width: '40px', 
-              height: '40px', 
-              borderRadius: '6px',
-              backgroundColor: '#48bb78',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: '#38a169',
-              },
-              '&:disabled': {
-                backgroundColor: '#cbd5e0',
-                cursor: 'not-allowed',
-              }
-            })}
           />
         )}
       </div>
@@ -171,3 +135,4 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
 };
 
 export default ProductCardComponent;
+

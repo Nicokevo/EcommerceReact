@@ -1,7 +1,13 @@
+import { useCart } from '../context/CartContext';
 import { css } from '../../styled-system/css';
 import { flex } from '../../styled-system/patterns';
 
-const CartComponent = ({ counter = 0 }) => {
+const CartComponent = () => {
+  const { getCartSize } = useCart(); // Obtener la función getCartSize
+  const cartQuantity = getCartSize(); 
+
+  console.log(cartQuantity);
+
   return (
     <div className={flex({ 
       alignItems: 'center', 
@@ -28,7 +34,7 @@ const CartComponent = ({ counter = 0 }) => {
         fontWeight: 'bold',
         fontSize: 'sm',
       })}>
-        {counter}
+          {Number.isNaN(cartQuantity) ? 0 : cartQuantity} {/* Asegúrate de mostrar 0 si es NaN */}
       </span>
     </div>
   );
