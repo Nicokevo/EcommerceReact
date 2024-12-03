@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext'; // Importa el contexto de tema
 import { css } from '../../styled-system/css';
 import ButtonComponent from './ButtonComponent';
 
 const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { isDarkMode } = useTheme(); // Obtén el estado de modo oscuro
 
   const handleAddToCart = () => {
     const quantity = 1; 
     addToCart(product, quantity); 
   };
-  
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.id);
@@ -20,19 +21,19 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
     <div 
       className={css({
         width: '250px', 
-        backgroundColor: 'white',
+        backgroundColor: isDarkMode ? 'gray.800' : 'white', // Cambia según el tema
         borderRadius: 'lg',
-        border: '1px solid #ecf0f1',
-        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+        border: isDarkMode ? '1px solid gray.700' : '1px solid #ecf0f1', // Borde según el tema
+        boxShadow: isDarkMode ? '0 10px 25px rgba(0, 0, 0, 0.3)' : '0 10px 25px rgba(0, 0, 0, 0.1)', // Sombra según el tema
         position: 'relative',
         margin: '20px',
         minHeight: '450px',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden', 
-        transition: 'transform 0.3s ease', 
+        overflow: 'hidden',
+        transition: 'transform 0.3s ease',
         '&:hover': {
-          transform: 'scale(1.05)', 
+          transform: 'scale(1.05)',
         }
       })}
       onMouseEnter={() => setIsHovered(true)}
@@ -70,19 +71,19 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         <h3 className={css({
           fontSize: '1.25rem',
           fontWeight: 'bold',
-          color: '#2c3e50',
+          color: isDarkMode ? 'gray.50' : '#2c3e50', // Texto según el tema
           marginBottom: '5px',
         })}>{product.name}</h3>
 
         <p className={css({
           fontSize: '1.25rem',
           fontWeight: 'bold',
-          color: '#3498db',
+          color: isDarkMode ? 'blue.300' : '#3498db', // Precio según el tema
         })}>${product.price.toFixed(2)}</p>
 
         <p className={css({
           fontSize: '0.9rem',
-          color: product.stock > 0 ? '#2ecc71' : '#e74c3c',
+          color: product.stock > 0 ? (isDarkMode ? 'green.400' : '#2ecc71') : (isDarkMode ? 'red.400' : '#e74c3c'),
         })}>
           {product.stock > 0 ? `In stock: ${product.stock}` : 'Sold out'}
         </p>
@@ -97,7 +98,7 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         flexDirection: 'row', 
         gap: '10px',
         opacity: isHovered ? 1 : 0,
-        visibility: isHovered ? 'visible' : 'hidden', 
+        visibility: isHovered ? 'visible' : 'hidden',
         transition: 'all 0.3s ease',
       })}>
         <Link 
@@ -108,7 +109,7 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
         >
           <ButtonComponent 
             text="View"
-            color="light"
+            color={isDarkMode ? 'light' : 'light'}
             size="small"
           />
         </Link>
@@ -117,7 +118,7 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
           <ButtonComponent 
             text="Remove"
             onClick={handleRemoveFromCart}
-            color="accent"
+            color={isDarkMode ? 'red.500' : '#ff4d4d'}
             size="small"
           />
         ) : (
@@ -125,7 +126,7 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
             text="Add"
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            color="secondary"
+            color={isDarkMode ? 'secondary' : 'secondary'}
             size="small"
           />
         )}
@@ -135,4 +136,3 @@ const ProductCardComponent = ({ product, addToCart, removeFromCart, isInCart }) 
 };
 
 export default ProductCardComponent;
-

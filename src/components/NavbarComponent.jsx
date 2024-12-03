@@ -2,9 +2,11 @@ import { css } from '../../styled-system/css';
 import { flex } from '../../styled-system/patterns';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import CartPanel from './CartPanel';  
+import CartPanelComponent from './CartPanelComponent';
+import { useTheme } from '../context/ThemeContext';  // Importar el contexto
 
 function NavbarComponent({ counter }) {
+  const { isDarkMode, toggleTheme } = useTheme(); // Obtener estado y función desde el contexto
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -26,29 +28,32 @@ function NavbarComponent({ counter }) {
     setSelectedCategory(id);
 
     if (id === 'All') {
-      navigate('/');  // Navegar a la página principal
+      navigate('/'); // Navegar a la página principal
     } else {
-      navigate(`/category/${id}`);  // Navegar a la página de la categoría específica
+      navigate(`/category/${id}`); // Navegar a la página de la categoría específica
     }
   };
 
   useEffect(() => {
     if (location.pathname === '/') {
-      setSelectedCategory('');  // Si estamos en la página principal, restablecer la categoría seleccionada
+      setSelectedCategory(''); // Si estamos en la página principal, restablecer la categoría seleccionada
     }
   }, [location]);
 
   return (
     <nav
       className={css({
-        backgroundColor: '#333',
-        color: 'white',
+        backgroundColor: isDarkMode ? '#333' : '#f8f9fa',
+        color: isDarkMode ? 'white' : '#333',
         padding: '10px 20px',
-        borderBottom: '1px solid #444',
+        borderBottom: `1px solid ${isDarkMode ? '#444' : '#ccc'}`,
         width: '100%',
         position: 'sticky',
         top: '0',
         zIndex: '1000',
+        '@media (max-width: 768px)': {
+          padding: '10px',
+        },
       })}
     >
       <div
@@ -57,6 +62,10 @@ function NavbarComponent({ counter }) {
           alignItems: 'center',
           maxWidth: '1200px',
           margin: '0 auto',
+          '@media (max-width: 768px)': {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          },
         })}
       >
         <NavLink
@@ -64,10 +73,10 @@ function NavbarComponent({ counter }) {
           className={css({
             fontSize: '2xl',
             fontWeight: 'bold',
-            color: 'white',
+            color: isDarkMode ? 'white' : '#333',
             textDecoration: 'none',
             '&:hover': {
-              color: '#e1e1e1',
+              color: isDarkMode ? '#e1e1e1' : '#555',
             },
           })}
         >
@@ -81,14 +90,14 @@ function NavbarComponent({ counter }) {
             onChange={(e) => handleCategoryChange(e.target.value)}
             className={css({
               padding: '8px 18px',
-              backgroundColor: '#444',
-              color: 'white',
-              border: '1px solid #666',
+              backgroundColor: isDarkMode ? '#444' : '#fff',
+              color: isDarkMode ? 'white' : '#333',
+              border: `1px solid ${isDarkMode ? '#666' : '#ccc'}`,
               borderRadius: '20px',
               cursor: 'pointer',
               fontWeight: '500',
               '&:hover': {
-                backgroundColor: '#555',
+                backgroundColor: isDarkMode ? '#555' : '#f1f1f1',
               },
             })}
           >
@@ -105,25 +114,43 @@ function NavbarComponent({ counter }) {
             className={css({
               padding: '8px 18px',
               backgroundColor: 'transparent',
-              border: '1px solid #666',
-              color: 'white',
+              border: `1px solid ${isDarkMode ? '#666' : '#ccc'}`,
+              color: isDarkMode ? 'white' : '#333',
               cursor: 'pointer',
               fontWeight: '500',
               borderRadius: '20px',
               transition: 'background-color 0.3s ease, transform 0.3s ease',
               '&:hover': {
-                backgroundColor: '#444',
+                backgroundColor: isDarkMode ? '#444' : '#f9f9f9',
                 transform: 'scale(1.05)',
               },
             })}
           >
             🛒 ({counter})
           </button>
+
+          {/* Botón de alternar modo oscuro */}
+          <button
+            onClick={toggleTheme}
+            className={css({
+              padding: '8px 18px',
+              backgroundColor: isDarkMode ? '#555' : '#fff',
+              color: isDarkMode ? 'white' : '#333',
+              border: `1px solid ${isDarkMode ? '#666' : '#ccc'}`,
+              cursor: 'pointer',
+              borderRadius: '20px',
+              '&:hover': {
+                backgroundColor: isDarkMode ? '#666' : '#f0f0f0',
+              },
+            })}
+          >
+            {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+          </button>
         </div>
       </div>
 
       {/* Panel lateral de carrito */}
-      <CartPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
+      <CartPanelComponent isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
     </nav>
   );
 }

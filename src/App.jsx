@@ -1,106 +1,35 @@
-import { useState } from 'react';
+import  { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { CartProvider, useCart } from './context/CartContext';
 import { css } from '../styled-system/css';
 import { flex } from '../styled-system/patterns';
 import NavbarComponent from './components/NavbarComponent';
 import ProductListComponent from './components/ProductListComponent';
 import ProductDetailPage from './components/ProductDetailPage';
 import CartComponent from './components/CartComponent';
-import CartDetailComponent from './components/CartDetailComponent'; // Importa CartDetailComponent
-import { CartProvider, useCart } from './context/CartContext'; // Importa CartProvider y useCart
+import CartDetailComponent from './components/CartDetailComponent';
+import CheckoutForm from './components/CheckoutForm';
+import CartPanelComponent from './components/CartPanelComponent';
 import './index.css';
-import { Link,BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
-
-function CartPanel({ isVisible, onClose, cart, handleBuy }) {
-  const navigate = useNavigate();  // Hook de navegación
-
-  const handleViewDetails = () => {
-    // Redirigir al detalle del carrito
-    navigate('/cart/detail');
-  };
-
-  return isVisible ? (
-    <div className={css({
-      position: 'fixed',
-      top: '0',
-      right: '0',
-      left: '0',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      zIndex: '1000',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    })}>
-      <div className={css({
-        backgroundColor: 'white',
-        padding: '4',
-        borderRadius: 'md',
-        width: '90%',
-        maxWidth: '500px',
-        boxShadow: 'lg',
-      })}>
-        <h2 className={css({ textAlign: 'center', marginBottom: '4' })}>Shopping Cart</h2>
-        <div>
-          {cart.length === 0 ? (
-            <p>There are no products in the cart</p>
-          ) : (
-            cart.map((item) => (
-              <div key={item.id} className={css({
-                marginBottom: '4',
-                display: 'flex',
-                justifyContent: 'space-between',
-              })}>
-                <div>{item.name}</div>
-                <div>
-                  <button onClick={() => item.updateQuantity(item.quantity - 1)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => item.updateQuantity(item.quantity + 1)}>+</button>
-                </div>
-                <button onClick={() => item.removeFromCart()} className={css({
-                  marginLeft: '4', color: 'red',
-                })}>Delete</button>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className={css({ textAlign: 'center' })}>
-          <button onClick={handleBuy} className={css({ backgroundColor: 'green.500', color: 'white', padding: '2', borderRadius: 'md' })}>
-            Buy
-          </button>
-          <button onClick={onClose} className={css({ backgroundColor: 'gray.500', color: 'white', padding: '2', borderRadius: 'md', marginLeft: '4' })}>
-            Close
-          </button>
-          {/* Botón para ver los detalles del carrito */}
-          <button onClick={handleViewDetails} className={css({ backgroundColor: 'blue.500', color: 'white', padding: '2', borderRadius: 'md', marginTop: '4' })}>
-            Ver detalles
-          </button>
-        </div>
-      </div>
-    </div>
-  ) : null;
-}
 
 function AppContent() {
   const { addToCart, removeFromCart, getCartSize, cart } = useCart();
   const cartSize = getCartSize();
   const [isCartVisible, setIsCartVisible] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme(); 
 
   const toggleCart = () => setIsCartVisible(prevState => !prevState);
   const closeCart = () => setIsCartVisible(false);
 
-  const handleBuy = () => {
-    alert('Compra realizada con éxito!');
-    cart.forEach(item => removeFromCart(item.id));
-    closeCart();
-  };
-
   return (
-    <BrowserRouter>
+    <Router>
       <div className={css({
         minHeight: '100vh',
-        backgroundColor: 'gray.50',
-        color: 'gray.900'
+        backgroundColor: isDarkMode ? 'gray.900' : 'gray.50',
+        color: isDarkMode ? 'gray.50' : 'gray.900',
+        transition: 'background-color 0.3s, color 0.3s'
       })}>
         <NavbarComponent counter={cartSize} />
         
@@ -110,7 +39,23 @@ function AppContent() {
           <CartComponent counter={cartSize} />
         </div>
 
-        <CartPanel isVisible={isCartVisible} onClose={closeCart} cart={cart} handleBuy={handleBuy} />
+        <button
+          onClick={toggleTheme}
+          className={css({
+            position: 'absolute',
+            top: '16px',
+            left: '16px',
+            padding: '8px',
+            borderRadius: 'full',
+            backgroundColor: isDarkMode ? 'yellow.400' : 'gray.800',
+            color: isDarkMode ? 'gray.800' : 'yellow.400',
+            transition: 'background-color 0.3s, color 0.3s'
+          })}
+        >
+          {isDarkMode ? '☀️' : '🌙'}
+        </button>
+
+        <CartPanelComponent isVisible={isCartVisible} onClose={closeCart} cart={cart} />
 
         <main className={flex({
           direction: 'column',
@@ -124,31 +69,33 @@ function AppContent() {
             <Route path="/" element={<ProductListComponent addToCart={addToCart} removeFromCart={removeFromCart} />} />
             <Route path="/category/:categoryId" element={<ProductListComponent addToCart={addToCart} removeFromCart={removeFromCart} />} />
             <Route path="/product/:productId" element={<ProductDetailPage addToCart={addToCart} removeFromCart={removeFromCart} />} />
-            <Route path="/cart-details/:cartItemId" element={<CartDetailComponent />} />
+            <Route path="/cart/detail" element={<CartDetailComponent />} />
+            <Route path="/checkout" element={<CheckoutForm />} />
           </Routes>
-           <Link to={`/cart-details/:productId`}>Ver detalles</Link>
-
         </main>
 
         <footer className={css({
           textAlign: 'center',
           padding: '4',
           borderTop: '1px solid',
-          borderColor: 'gray.200'
+          borderColor: isDarkMode ? 'gray.700' : 'gray.200'
         })}>
           © 2024 Drift Style. All rights reserved.
         </footer>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
 function App() {
   return (
-    <CartProvider>
-      <AppContent />
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 
 export default App;
+

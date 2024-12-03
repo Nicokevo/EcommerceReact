@@ -9,7 +9,7 @@ const CartDetailComponent = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        // Usamos getProduct en vez de getProducts para obtener el producto directamente
+      
         const product = await getProduct(cartItemId);
         if (product) {
           setProductDetails(product);
@@ -22,7 +22,7 @@ const CartDetailComponent = () => {
     };
 
     fetchProductDetails();
-  }, [cartItemId]); // Se recarga cuando cambia el cartItemId
+  }, [cartItemId]); 
 
   if (!productDetails) {
     return <p>Cargando detalles del carrito...</p>;
