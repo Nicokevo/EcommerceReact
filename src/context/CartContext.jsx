@@ -1,147 +1,76 @@
-import { createContext, useContext, useState } from "react";
-import Swal from 'sweetalert2';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-  const addToCart = (item, quantity) => {
-    const quantityNumber = Number(quantity);
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
-    if (isNaN(quantityNumber) || quantityNumber <= 0) {
-      console.error("Invalid quantity:", quantity);
-      return;
-    }
-
-    const stock = Number(item.stock);
-    if (isNaN(stock) || stock <= 0) {
-      console.error("Invalid stock value:", item.stock);
-      return;
-    }
-
-    setCart(prevCart => {
-      const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
-
+  const addToCart = useCallback((product, quantity) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === product.id);
       if (existingItem) {
-        const newQuantity = existingItem.quantity + quantityNumber;
-
-        if (newQuantity > stock) {
-          Swal.fire({
-            title: 'Stock Limit Reached',
-            text: `Only ${stock} units are available. Please adjust your quantity.`,
-            icon: 'warning',
-            confirmButtonText: 'Okay',
-          });
-          return prevCart;
-        }
-
-        return prevCart.map(cartItem =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: newQuantity }
-            : cartItem
+        const newQuantity = Math.min(existingItem.quantity + quantity, product.stock);
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: newQuantity }
+            : item
         );
       }
-
-      return [...prevCart, { ...item, quantity: quantityNumber }];
+      return [...prevCart, { ...product, quantity: Math.min(quantity, product.stock) }];
     });
-  };
+  }, []);
 
-  const updateQuantity = (id, newQuantity) => {
-    setCart((prevCart) => {
-      const item = prevCart.find(cartItem => cartItem.id === id);
-      if (!item) {
-        console.error('Item not found');
-        return prevCart;
-      }
+  const removeFromCart = useCallback((productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+  }, []);
 
-      const stock = Number(item.stock);
-      if (isNaN(stock) || stock <= 0) {
-        console.error("Invalid stock value:", item.stock);
-        return prevCart;
-      }
+  const updateQuantity = useCallback((productId, newQuantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: Math.min(Math.max(1, newQuantity), item.stock) }
+          : item
+      )
+    );
+  }, []);
 
-      if (newQuantity > stock) {
-        Swal.fire({
-          title: 'Stock Limit Reached',
-          text: `Only ${stock} units are available. Please adjust your quantity.`,
-          icon: 'warning',
-          confirmButtonText: 'Okay',
-        });
-        return prevCart;
-      }
+  const isInCart = useCallback((productId) => {
+    return cart.some((item) => item.id === productId);
+  }, [cart]);
 
-      return prevCart.map((cartItem) =>
-        cartItem.id === id ? { ...cartItem, quantity: newQuantity } : cartItem
-      );
-    });
-  };
+  const getCartSize = useCallback(() => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  }, [cart]);
 
-  const removeFromCart = (id, quantity = 1) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find(cartItem => cartItem.id === id);
-
-      if (!existingItem) {
-        console.error("Item not found in cart");
-        return prevCart;
-      }
-
-      if (existingItem.quantity < quantity) {
-        Swal.fire({
-          title: 'Invalid Quantity',
-          text: `You are trying to remove more units than are in your cart. You only have ${existingItem.quantity} units of this item.`,
-          icon: 'error',
-          confirmButtonText: 'Understood',
-        });
-        return prevCart;
-      }
-
-      if (existingItem.quantity > quantity) {
-        return prevCart.map(cartItem =>
-          cartItem.id === id
-            ? { ...cartItem, quantity: cartItem.quantity - quantity }
-            : cartItem
-        );
-      } else {
-        return prevCart.filter(cartItem => cartItem.id !== id);
-      }
-    });
-  };
-
-  const getCartSize = () => {
-    return cart.reduce((acc, item) => {
-      if (typeof item.quantity !== 'number' || isNaN(item.quantity)) {
-        console.error(`Invalid quantity for item with id ${item.id}: ${item.quantity}`);
-        return acc;
-      }
-      return acc + item.quantity;
-    }, 0);
-  };
-
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCart([]);
+  }, []);
+
+  const value = {
+    cart,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    isInCart,
+    getCartSize,
+    clearCart,
   };
 
-  return (
-    <CartContext.Provider value={{ 
-      cart, 
-      addToCart, 
-      removeFromCart,
-      getCartSize,
-      clearCart,
-      updateQuantity
-    }}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
-
-// cartHooks.js
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };
+

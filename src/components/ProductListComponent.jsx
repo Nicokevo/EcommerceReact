@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { css } from '../../styled-system/css';
 import { grid, flex } from '../../styled-system/patterns';
-import ProductCardComponent from './ProductCardComponent';
+import ProductCard from './ProductCard';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../services/firebase';
-import LoadingComponent from './LoadingComponent';  // Importa el spinner
+import LoadingComponent from './LoadingComponent'; 
 
 const ProductListComponent = ({ addToCart, removeFromCart }) => {
   const { categoryId } = useParams();
@@ -53,7 +53,7 @@ const ProductListComponent = ({ addToCart, removeFromCart }) => {
     return <p className={css({ textAlign: 'center', marginTop: '6', color: 'red.500', fontSize: 'xl' })}>{error}</p>;
   }
 
-  const categoryName = categoryId ? categoryId.replace('_', ' ').toUpperCase() : 'ALL PRODUCTS';
+  const categoryName = categoryId ? categoryId.replace('_', ' ').toUpperCase() : 'Destacados';
 
   return (
     <div className={css({ padding: '6' })}>
@@ -83,12 +83,12 @@ const ProductListComponent = ({ addToCart, removeFromCart }) => {
 
       {filteredProducts.length === 0 ? (
         <p className={css({ textAlign: 'center', marginTop: '6', fontSize: 'xl' })}>
-          No products were found in this category.
+          No hay productos por el momento.
         </p>
       ) : (
         <div className={grid({ columns: { base: 1, md: 2, lg: 3, xl: 4 }, gap: '6' })}>
           {filteredProducts.map(product => (
-            <ProductCardComponent 
+            <ProductCard 
               key={product.id} 
               product={product} 
               addToCart={addToCart} 
