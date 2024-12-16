@@ -9,7 +9,7 @@ import ProductListComponent from './components/ProductListComponent';
 import ProductDetailPage from './components/ProductDetailPage';
 import CartPanelComponent from './components/CartPanelComponent';
 import CheckoutForm from './components/CheckoutForm';
-import Home from './pages/home';
+import Home from './pages/Home';
 
 import './index.css';
 
