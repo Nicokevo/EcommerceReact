@@ -1,8 +1,66 @@
-# React + Vite
+# Drift Style - Ecommerce de Camperas Deportivas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+¡Bienvenido a **Drift Style**! Un ecommerce diseñado para ofrecerte las mejores camperas deportivas, combinando estilo y funcionalidad.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Características Principales**
+
+- **Diseño Moderno**: Construido con React y Vite para una experiencia de usuario rápida y fluida.
+- **Estilos Personalizados**: Implementación con Panda CSS para un diseño responsivo y moderno.
+- **Animaciones Suaves**: Usamos `framer-motion` para agregar dinamismo al sitio.
+- **Gestión de Productos**: Presentación de productos con imágenes, descripciones y precios.
+- **Notificaciones**: Uso de `react-toastify` para mensajes claros y efectivos.
+- **Carrito de Compras**: Funcionalidad integrada para gestionar las compras de los usuarios.
+
+---
+
+## **Tecnologías Utilizadas**
+
+- **Frontend**:
+  - React
+  - React Router DOM
+  - Panda CSS
+  - Framer Motion
+  - React Icons
+
+- **Backend**:
+  - Firebase (Autenticación, Base de Datos)
+
+- **Herramientas de Desarrollo**:
+  - Vite
+  - ESLint
+
+---
+
+## **Instalación**
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/Nicokevo/EcommerceReact.git
+   cd EcommerceReact
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+
+3. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## **Scripts Disponibles**
+
+En el proyecto puedes ejecutar los siguientes comandos:
+
+- **`npm run dev`**: Inicia el servidor de desarrollo.
+- **`npm run build`**: Genera una versión optimizada para producción.
+- **`npm run preview`**: Previsualiza el proyecto después de construirlo.
+- **`npm run panda`**: Ejecuta Panda CSS para compilar los estilos.
+- **`npm run panda:watch`**: Observa y compila cambios en los estilos.
+
+---
