@@ -38,7 +38,6 @@ export const createProduct = async (name, price, images, stock, categoryId) => {
 
   try {
     await setDoc(doc(collection(db, 'products')), product);
-    console.log('Product added successfully');
     return product;
   } catch (error) {
     console.error('Error adding product: ', error);
@@ -134,7 +133,6 @@ export const initializeProducts = async () => {
   for (const product of productsToAdd) {
     await createProduct(product.name, product.price, product.images, product.stock, product.category);
   }
-  console.log('All products have been initialized in Firestore');
 };
 
 export default {
