@@ -52,7 +52,7 @@ const CartPanelComponent = ({ isOpen, onClose }) => {
       })}>
         <h2 className={css({ fontSize: '1.5rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' })}>
           <FaShoppingCart />
-          Mi Carrito
+          Mis compras
         </h2>
         <button
           onClick={onClose}

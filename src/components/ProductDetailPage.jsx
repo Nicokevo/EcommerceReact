@@ -204,7 +204,7 @@ function ProductDetailPage() {
                 ? (isDarkMode ? 'white' : 'green.700')
                 : (isDarkMode ? 'red.300' : 'red.700'),
             })}>
-              {availableStock() > 0 ? `En Stock: ${availableStock()} disponible` : 'No hay stock por el momento'}
+              {availableStock() > 0 ? `En Stock: ${availableStock()} disponible` : 'Alcanzo al maximo de stock'}
             </p>
           </div>
 

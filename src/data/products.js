@@ -3,16 +3,18 @@ import { db } from '../services/firebase';
 
 const toUpperCase = (str) => str.toUpperCase();
 
-export const CategoryEnum = Object.freeze({
-  OUTERWEAR: 'outerwear',
-  JACKETS: 'jackets',
-  COATS: 'coats',
-  WATERPROOF: 'waterproof',
-  LIGHTWEIGHT: 'lightweight',
+// Definimos las categorías como enum
+export const CategoryEnum = {
   BEST_SELLERS: 'best_sellers',
-});
+  OFFERS: 'offers',
+};
 
-// Función para validar las imágenes
+// Lista de categorías con sus nombres legibles
+export const categories = [
+  { id: CategoryEnum.BEST_SELLERS, name: 'Más Vendidos' },
+  { id: CategoryEnum.OFFERS, name: 'Ofertas' },
+];
+
 const validateImages = (images) => {
   if (!images.primary || !images.secondary || !Array.isArray(images.gallery)) {
     throw new Error('Images must include primary, secondary, and a gallery array');
@@ -22,17 +24,16 @@ const validateImages = (images) => {
   }
 };
 
-export const createProduct = async (name, price, images, stock, category) => {
-  // Validar las imágenes
+export const createProduct = async (name, price, images, stock, categoryId) => {
   validateImages(images);
 
   const product = {
     name: toUpperCase(name),
     price,
-    images, // Guardar como objeto con estructura específica
+    images,
     description: `Detailed description of ${name}`,
     stock,
-    category,
+    category: categoryId, // Usamos CategoryEnum aquí
   };
 
   try {
@@ -71,10 +72,10 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getProductsByCategory = async (category) => {
+export const getProductsByCategory = async (categoryId) => {
   try {
     const productsCollection = collection(db, 'products');
-    const q = query(productsCollection, where("category", "==", category));
+    const q = query(productsCollection, where("category", "==", categoryId));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
@@ -83,6 +84,7 @@ export const getProductsByCategory = async (category) => {
   }
 };
 
+// Inicialización de productos usando las categorías definidas
 export const initializeProducts = async () => {
   const productsToAdd = [
     { 
@@ -97,7 +99,7 @@ export const initializeProducts = async () => {
         ],
       }, 
       stock: 5, 
-      category: CategoryEnum.BEST_SELLERS
+      category: CategoryEnum.BEST_SELLERS, // Usamos CategoryEnum aquí
     },
     { 
       name: "1996 RETRO NUPTSE JACKET", 
@@ -111,7 +113,7 @@ export const initializeProducts = async () => {
         ],
       }, 
       stock: 3, 
-      category: CategoryEnum.WATERPROOF
+      category: CategoryEnum.BEST_SELLERS, // Usamos CategoryEnum aquí
     },
     { 
       name: "Jordan Flight Heritage", 
@@ -125,7 +127,7 @@ export const initializeProducts = async () => {
         ],
       }, 
       stock: 10, 
-      category: CategoryEnum.OUTERWEAR
+      category: CategoryEnum.OFFERS, // Usamos CategoryEnum aquí
     },
   ];
 
@@ -141,5 +143,6 @@ export default {
   getAllProducts,
   getProductsByCategory,
   initializeProducts,
-  CategoryEnum,
+  categories, // Exportamos la lista de categorías
+  CategoryEnum, // Exportamos el enum de categorías
 };

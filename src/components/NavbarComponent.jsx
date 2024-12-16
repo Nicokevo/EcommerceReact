@@ -2,8 +2,8 @@
 
 import { css } from '../../styled-system/css';
 import { flex } from '../../styled-system/patterns';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import CartPanelComponent from './CartPanelComponent';
 import { useTheme } from '../context/ThemeContext';
 import { BsBag } from "react-icons/bs";
@@ -14,19 +14,43 @@ const categories = [
   { id: 'all', name: 'Home' },
   { id: 'best_sellers', name: 'Más Vendidos' },
   { id: 'offers', name: 'Ofertas' },
-  { id: 'jackets', name: 'Chaquetas' },
-  { id: 'coats', name: 'Abrigos' },
-  { id: 'outerwear', name: 'Ropa de Abrigo' },
-  { id: 'winter', name: 'Invierno' },
-  { id: 'lightweight', name: 'Ligeros' },
-  { id: 'waterproof', name: 'Impermeables' },
 ];
 
 function NavbarComponent({ counter }) {
   const { isDarkMode, toggleTheme } = useTheme();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const location = useLocation(); // Obtiene la ruta actual
-  
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = 'DRIFT STYLE';
+
+  useEffect(() => {
+    let index = 0;
+
+    const writeText = () => {
+      index = 0; // Reiniciar el índice para que el texto se reescriba desde el principio
+      const timer = setInterval(() => {
+        setDisplayedText(fullText.slice(0, index + 1));
+        index++;
+
+        if (index === fullText.length) clearInterval(timer);
+      }, 150); // Velocidad de la escritura (en milisegundos)
+
+      return timer;
+    };
+
+    const timer = writeText(); // Ejecuta el proceso de escritura inicial
+
+    // Reescribe el texto cada 10 segundos
+    const resetTimer = setInterval(() => {
+      clearInterval(timer); // Detener el intervalo anterior
+      writeText(); // Iniciar el proceso de reescritura nuevamente
+    }, 10000); // Cada 10 segundos
+
+    return () => {
+      clearInterval(timer); // Limpiar intervalos cuando el componente se desmonte
+      clearInterval(resetTimer);
+    };
+  }, []);
+
   return (
     <header className={css({
       width: '100%',
@@ -60,7 +84,7 @@ function NavbarComponent({ counter }) {
           padding: '8px 0',
           borderBottom: `1px solid ${isDarkMode ? '#333' : '#e5e5e5'}`,
         })}>
-          <NavLink to="/store-locator" className={css({
+          <NavLink to="/" className={css({
             fontSize: 'sm',
             color: isDarkMode ? '#999' : '#666',
             textDecoration: 'none',
@@ -68,7 +92,7 @@ function NavbarComponent({ counter }) {
           })}>
             Buscar tienda
           </NavLink>
-          <NavLink to="/help" className={css({
+          <NavLink to="/" className={css({
             fontSize: 'sm',
             color: isDarkMode ? '#999' : '#666',
             textDecoration: 'none',
@@ -90,7 +114,13 @@ function NavbarComponent({ counter }) {
             color: isDarkMode ? 'white' : 'black',
             textDecoration: 'none',
           })}>
-            Drift Style
+            {/* Drift Style con animación de reescritura */}
+            <span className={css({
+              fontWeight: 'bold',
+              fontFamily: 'monospace', // Estilo máquina de escribir
+            })}>
+              {displayedText}
+            </span>
           </NavLink>
 
           <div className={flex({
@@ -107,10 +137,7 @@ function NavbarComponent({ counter }) {
                   fontWeight: isActive ? 'bold' : '500',
                   fontSize: '14px',
                   '&:hover': { color: isDarkMode ? '#999' : '#666' },
-                })}
-                style={{
-                  fontWeight: location.pathname.includes(category.id) ? 'bold' : 'normal', // Marca como activo si la ruta contiene la categoría
-                }}
+                })} 
               >
                 {category.name}
               </NavLink>

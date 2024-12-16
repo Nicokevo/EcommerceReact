@@ -20,6 +20,7 @@ const CartPanelComponent = ({ isOpen, onClose }) => {
     setError('');
   };
 
+
   const handleCheckout = () => {
     if (cart.length === 0) {
       setError('Tu carrito está vacío. Agrega productos antes de finalizar la compra.');
@@ -57,7 +58,7 @@ const CartPanelComponent = ({ isOpen, onClose }) => {
       })}>
         <h2 className={css({ fontSize: '1.5rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '10px' })}>
           <FaShoppingCart />
-          Mi Carrito
+          Mis compras
         </h2>
         <button
           onClick={onClose}

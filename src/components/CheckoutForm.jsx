@@ -6,8 +6,9 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { css } from '../../styled-system/css';
 import { FaCreditCard, FaUser, FaMapMarkerAlt, FaTag, FaPercent } from 'react-icons/fa';
-import Swal from 'sweetalert2';
-import  DiscountModal from './DiscountModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DiscountModal from './DiscountModal';
 import BanksPromotionsModal from './BanksPromotionsModal';
 
 const VALID_COUPONS = {
@@ -66,22 +67,24 @@ const CheckoutForm = () => {
       setAppliedCoupon(couponCode);
       setDiscount(VALID_COUPONS[couponCode]);
       setCoupon('');
-      Swal.fire({
-        icon: 'success',
-        title: 'Cupón aplicado',
-        text: `Se ha aplicado un descuento del ${VALID_COUPONS[couponCode]}%`,
-        background: isDarkMode ? '#1F2937' : '#FFFFFF',
-        color: isDarkMode ? '#FFFFFF' : '#000000',
-        confirmButtonColor: '#3B82F6'
+      toast.success(`Se ha aplicado un descuento del ${VALID_COUPONS[couponCode]}%`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: isDarkMode ? "dark" : "light",
       });
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Cupón inválido',
-        text: 'Por favor, ingrese un código de cupón válido.',
-        background: isDarkMode ? '#1F2937' : '#FFFFFF',
-        color: isDarkMode ? '#FFFFFF' : '#000000',
-        confirmButtonColor: '#EF4444'
+      toast.error('Por favor, ingrese un código de cupón válido.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: isDarkMode ? "dark" : "light",
       });
     }
   };
@@ -94,19 +97,21 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(cart.length === 0){
-      Swal.fire({
-        icon: 'warning',
-        title: 'Sin pedidos no hay compra bye',
-        text: 'Su pedido ha sido realizado con éxito. Recibirá una confirmación por correo electrónico.',
-        background: isDarkMode ? '#1F2937' : '#FFFFFF',
-        color: isDarkMode ? '#FFFFFF' : '#000000',
-        confirmButtonColor: '#10B981'
-      }).then(() => {
-        navigate('/');
+  
+    // Verificar si el carrito está vacío
+    if (cart.length === 0) {
+      toast.error('No se puede realizar un pedido con el carrito vacío', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: isDarkMode ? "dark" : "light",
       });
-   
-    };
+      return;
+    }
+  
     if (validateForm()) {
       const orderData = {
         formData,
@@ -116,32 +121,48 @@ const CheckoutForm = () => {
         appliedCoupon: appliedCoupon,
         timestamp: new Date()
       };
-
+  
       try {
         const { id: orderId } = await addDoc(collection(db, 'orders'), orderData);
         clearCart();
-        navigate('/order-confirmation', { state: { orderId } });
-        Swal.fire({
-          icon: 'success',
-          title: '¡Pedido realizado!',
-          text: 'Su pedido ha sido realizado con éxito. Recibirá una confirmación por correo electrónico.',
-          background: isDarkMode ? '#1F2937' : '#FFFFFF',
-          color: isDarkMode ? '#FFFFFF' : '#000000',
-          confirmButtonColor: '#10B981'
+        const successMessage = 'Su pedido ha sido realizado con éxito. Recibirá una confirmación por correo electrónico.';
+  
+        // Mostrar el toast de éxito
+        toast.success(successMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: isDarkMode ? "dark" : "light",
         });
+  
+        // Esperar 5 segundos antes de redirigir
+        setTimeout(() => {
+          navigate('/', {
+            state: {
+              orderId,
+              message: successMessage
+            }
+          });
+        }, 5000);
+  
       } catch (error) {
         console.error('Error al crear el pedido:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al realizar el pedido',
-          text: 'Por favor, intente nuevamente más tarde.',
-          background: isDarkMode ? '#1F2937' : '#FFFFFF',
-          color: isDarkMode ? '#FFFFFF' : '#000000',
-          confirmButtonColor: '#EF4444'
+        toast.error('Hubo un problema al procesar su pedido. Por favor, intente nuevamente más tarde.', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: isDarkMode ? "dark" : "light",
         });
       }
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -156,9 +177,8 @@ const CheckoutForm = () => {
     }
 
     if (name === 'cardExpiry') {
-      // Ensure we're working with a valid date string
       if (value) {
-        const date = new Date(value + '-01'); // Add day to make valid date
+        const date = new Date(value + '-01');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear().toString().slice(-2);
         updatedValue = `${month}/${year}`;
@@ -471,7 +491,8 @@ const CheckoutForm = () => {
                         color: isDarkMode ? 'gray.300' : 'gray.600',
                       })}>
                         <span>Cant: {item.quantity}</span>
-                        <span>${(item.price * item.quantity).toFixed(2)}</span></div>
+                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -638,17 +659,19 @@ const CheckoutForm = () => {
 
               <button
                 type="submit"
+                disabled={cart.length === 0}
                 className={css({
                   width: '100%',
                   marginTop: '1.5rem',
                   padding: '1rem',
-                  backgroundColor: 'green.500',
+                  backgroundColor: cart.length === 0 ? 'gray.400' : 'green.500',
                   color: 'white',
                   borderRadius: '0.5rem',
                   fontWeight: 'bold',
                   transition: 'all 0.2s',
+                  cursor: cart.length === 0 ? 'not-allowed' : 'pointer',
                   '&:hover': {
-                    backgroundColor: 'green.600',
+                    backgroundColor: cart.length === 0 ? 'gray.400' : 'green.600',
                   },
                   '&:focus': {
                     outline: 'none',
@@ -656,7 +679,7 @@ const CheckoutForm = () => {
                   },
                 })}
               >
-                Realizar Pedido
+                {cart.length === 0 ? 'Carrito Vacío' : 'Realizar Pedido'}
               </button>
             </div>
           </div>
@@ -671,6 +694,7 @@ const CheckoutForm = () => {
           onClose={() => setIsBankPromotionsModalOpen(false)}
         />
       </form>
+      <ToastContainer/>
     </div>
   );
 };

@@ -99,7 +99,7 @@ function AppContent() {
             borderColor: isDarkMode ? 'gray.700' : 'gray.200',
           })}
         >
-          © 2024 Drift Style. All rights reserved.
+          © 2025 Drift Style. Todos los derechos reservados.
         </footer>
       </div>
     </Router>

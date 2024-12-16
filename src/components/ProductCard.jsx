@@ -24,16 +24,17 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
 
   const calculateInstallments = () => {
     const discountedPrice = calculateDiscountedPrice();
-    const installmentAmount = (parseFloat(discountedPrice) / 3).toFixed(2);
-    return `3 cuotas sin interés de $${installmentAmount}`;
+    const installmentAmount = (parseFloat(discountedPrice) / 6).toFixed(2);
+    return `6 cuotas sin interés de $${installmentAmount}`;
   };
 
   return (
     <div 
       className={css({
         width: '300px',
-        maxWidth: '600px',
-        height: '550px',
+        maxWidth: '100%',
+        height: 'auto',
+        minHeight: '550px',
         backgroundColor: isDarkMode ? 'gray.800' : 'white',
         borderRadius: 'xl',
         border: isDarkMode ? '1px solid token(colors.gray.700)' : '1px solid token(colors.gray.200)',
@@ -42,6 +43,7 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
         margin: '20px',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
         overflow: 'hidden',
         transition: 'all 0.3s ease',
         '&:hover': {
@@ -54,7 +56,7 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
     >
       <div className={css({
         width: '100%',
-        height: '300px',
+        paddingTop: '100%', 
         overflow: 'hidden',
         borderTopLeftRadius: 'xl',
         borderTopRightRadius: 'xl',
@@ -64,10 +66,14 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
           src={isHovered && product.images.secondary ? product.images.secondary : product.images.primary}
           alt={product.name} 
           className={css({
+            position: 'absolute',
+            top: '0',
+            left: '0',
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'opacity 0.3s ease',
+            transition: 'opacity 0.3s ease, transform 0.3s ease',
+            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
           })}
         />
         {product.discount > 0 && (
@@ -108,14 +114,20 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
+        gap: '15px',
         flex: 1,
       })}>
         <h3 className={css({
           fontSize: 'xl',
           fontWeight: 'bold',
           color: isDarkMode ? 'gray.50' : 'gray.800',
+          lineHeight: '1.2',
           marginBottom: '5px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: '2',
+          WebkitBoxOrient: 'vertical',
         })}>
           {product.name}
         </h3>
@@ -156,19 +168,16 @@ const ProductCard = ({ product, addToCart, removeFromCart, isInCart }) => {
       </div>
 
       <div className={css({
-        position: 'absolute',
-        bottom: '20px',
-        left: '20px',
-        right: '20px',
+        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px',
-        transition: 'opacity 0.3s ease',
-        opacity: isHovered ? 1 : 0,
+        gap: '15px',
+        borderTop: isDarkMode ? '1px solid token(colors.gray.700)' : '1px solid token(colors.gray.200)',
       })}>
         <p className={css({
           fontSize: 'sm',
           color: isDarkMode ? 'gray.400' : 'gray.600',
+          fontWeight: 'medium',
         })}>
           {calculateInstallments()}
         </p>

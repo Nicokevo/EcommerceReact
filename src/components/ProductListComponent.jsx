@@ -53,7 +53,20 @@ const ProductListComponent = ({ addToCart, removeFromCart }) => {
     return <p className={css({ textAlign: 'center', marginTop: '6', color: 'red.500', fontSize: 'xl' })}>{error}</p>;
   }
 
-  const categoryName = categoryId ? categoryId.replace('_', ' ').toUpperCase() : 'Destacados';
+  const categoryNames = {
+    all: 'Destacados',
+    best_sellers: 'Más Vendidos',
+    offers: 'Ofertas',
+    jackets: 'Chaquetas',
+    coats: 'Abrigos',
+    outerwear: 'Ropa de Abrigo',
+    winter: 'Invierno',
+    lightweight: 'Ligeros',
+    waterproof: 'Impermeables',
+  };
+  
+  const categoryName = categoryId ? categoryNames[categoryId] || categoryId.replace('_', ' ').toUpperCase() : 'Destacados';
+  
 
   return (
     <div className={css({ padding: '6' })}>
@@ -76,7 +89,7 @@ const ProductListComponent = ({ addToCart, removeFromCart }) => {
                 color: 'gray.900'
               }
             })}>
-            ← Back to all categories
+            ← Regresar al Home
           </Link>
         )}
       </div>

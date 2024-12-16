@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <div className={css({
       position: 'fixed',
-      top: 0,
+      top: 20,
       left: 0,
       right: 0,
       bottom: 0,
