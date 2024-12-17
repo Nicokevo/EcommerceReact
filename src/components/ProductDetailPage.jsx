@@ -161,7 +161,6 @@ function ProductDetailPage() {
               <span>Home</span>
             </Link>
           </li>
-          <li>{' / '}</li>
           <li className={css({ fontWeight: 'medium', color: isDarkMode ? 'gray.200' : 'gray.900' })}>{product.name}</li>
         </ol>
       </nav>
