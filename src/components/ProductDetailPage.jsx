@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { db, doc, getDoc } from '../services/firebase';
-import { FaShoppingCart, FaTrash, FaHome, FaStore } from 'react-icons/fa';
+import { FaShoppingCart, FaTrash, FaHome } from 'react-icons/fa';
 import ImageGallery from './ImageGallery';
 import { css } from '../../styled-system/css';
 import { flex } from '../../styled-system/patterns';
@@ -163,15 +163,7 @@ function ProductDetailPage() {
           </li>
           <li>{' / '}</li>
           <li>
-            <Link to="/products" className={css({ 
-              _hover: { color: isDarkMode ? 'blue.300' : 'blue.600' },
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1'
-            })}>
-              <FaStore />
-              <span>Productos</span>
-            </Link>
+         
           </li>
           <li>{' / '}</li>
           <li className={css({ fontWeight: 'medium', color: isDarkMode ? 'gray.200' : 'gray.900' })}>{product.name}</li>
