@@ -1,12 +1,22 @@
-
 import { css } from '../../styled-system/css';
 import Banner from '../components/Banner';
 import Carousel from '../components/Carousel';
 import { useTheme } from '../context/ThemeContext';
 import VerticalBanner from '../components/VerticalBanner';
+import { initializeProducts } from '../data/products';
 
 const Home = () => {
   const { isDarkMode } = useTheme();
+
+  const handleAddProducts = async () => {
+    try {
+      await initializeProducts();
+      alert('Productos inicializados correctamente.');
+    } catch (error) {
+      console.error('Error al inicializar productos:', error);
+      alert('Ocurrió un error al agregar productos.');
+    }
+  };
 
   return (
     <div className={css({
@@ -31,6 +41,23 @@ const Home = () => {
         marginTop: '30px',
       })}>
         <Carousel showArrows={false} />
+
+        {/* Botón para inicializar productos */}
+        <button
+          className={css({
+            marginTop: '20px',
+            padding: '10px 20px',
+            backgroundColor: 'blue.500',
+            color: 'white',
+            fontWeight: 'bold',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            _hover: { backgroundColor: 'blue.700' },
+          })}
+          onClick={handleAddProducts}
+        >
+          Agregar Productos
+        </button>
       </div>
 
       <VerticalBanner />
