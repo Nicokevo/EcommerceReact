@@ -17,4 +17,15 @@ export default defineConfig({
       '@styled-system': path.resolve(__dirname, 'src/styled-system'),
     },
   },
+  build: {
+    outDir: 'dist', // Carpeta donde Vite genera los archivos de producción
+  },
+  server: {
+    // Permite que las rutas sean redirigidas correctamente
+    historyApiFallback: true,
+  },
+  preview: {
+    // Configura el servidor de "preview" después del build
+    historyApiFallback: true,
+  },
 });
