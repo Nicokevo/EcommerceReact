@@ -1,0 +1,20 @@
+<testsuites id="" name="" tests="6" failures="0" skipped="0" errors="0" time="16.67765">
+<testsuite name="Cart.spec.ts" timestamp="2025-05-24T22:00:19.340Z" hostname="" tests="2" failures="0" skipped="0" time="2.538" errors="0">
+<testcase name="Cart Functionality › shows a message when trying to finalize purchase with an empty cart" classname="Cart.spec.ts" time="1.694">
+</testcase>
+<testcase name="Cart Functionality › empties the cart and verifies the total is $0.00" classname="Cart.spec.ts" time="0.844">
+</testcase>
+</testsuite>
+<testsuite name="darkMode\darkMode.spec.ts" timestamp="2025-05-24T22:00:19.340Z" hostname="" tests="1" failures="0" skipped="0" time="2.224" errors="0">
+<testcase name="el header cambia de color correctamente" classname="darkMode\darkMode.spec.ts" time="2.224">
+</testcase>
+</testsuite>
+<testsuite name="ProductDetailPage.spec.ts" timestamp="2025-05-24T22:00:19.340Z" hostname="" tests="3" failures="0" skipped="0" time="14.758" errors="0">
+<testcase name="Product Detail Page › validates the stock message and adjusts to the maximum stock" classname="ProductDetailPage.spec.ts" time="5.781">
+</testcase>
+<testcase name="Product Detail Page › validates that the cart displays the correct number of products" classname="ProductDetailPage.spec.ts" time="4.402">
+</testcase>
+<testcase name="Product Detail Page › empties the cart and validates it is empty" classname="ProductDetailPage.spec.ts" time="4.575">
+</testcase>
+</testsuite>
+</testsuites>

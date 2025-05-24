@@ -940,6 +940,15 @@ img, svg, video, canvas, audio, iframe, embed, object {
   .active\:bg-c_red\.700:is(:active, [data-active]) {
     background-color: var(--colors-red-700);
 }
+
+  @media (max-width: 640px) {
+    .max-w_400px {
+      max-width: 100vw !important;
+    }
+    .w_90\% {
+      width: 100vw !important;
+    }
+  }
 }
 
 @keyframes spin {

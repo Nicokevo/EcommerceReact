@@ -75,12 +75,12 @@ function NavbarComponent({ counter }) {
       <div className={css({
         maxWidth: '1440px',
         margin: '0 auto',
-        padding: '0 20px',
+        padding: { base: '0 8px', md: '0 20px' }, // padding responsivo
       })}>
         {/* Top utilities */}
         <div className={flex({
           justifyContent: 'flex-end',
-          gap: '20px',
+          gap: { base: '8px', md: '20px' }, // gap responsivo
           padding: '8px 0',
           borderBottom: `1px solid ${isDarkMode ? '#333' : '#e5e5e5'}`,
         })}>
@@ -106,26 +106,30 @@ function NavbarComponent({ counter }) {
         <nav className={flex({
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '16px 0',
+          padding: { base: '8px 0', md: '16px 0' }, // padding responsivo
+          flexDirection: { base: 'column', md: 'row' }, // stack en mobile
+          gap: { base: '12px', md: '0' }, // espacio entre elementos en mobile
         })}>
+          {/* Logo */}
           <NavLink to="/" className={css({
-            fontSize: '24px',
+            fontSize: { base: '18px', md: '24px' }, // tamaño responsivo
             fontWeight: 'bold',
             color: isDarkMode ? 'white' : 'black',
             textDecoration: 'none',
+            marginBottom: { base: '8px', md: '0' }, // espacio en mobile
           })}>
-            {/* Drift Style con animación de reescritura */}
             <span className={css({
               fontWeight: 'bold',
-              fontFamily: 'monospace', // Estilo máquina de escribir
+              fontFamily: 'monospace',
             })}>
               {displayedText}
             </span>
           </NavLink>
 
           <div className={flex({
-            gap: '24px',
+            gap: { base: '12px', md: '24px' }, // gap responsivo
             alignItems: 'center',
+            flexWrap: 'wrap', // permite que los botones bajen en mobile
           })}>
             {categories.map((category) => (
               <NavLink
@@ -144,19 +148,27 @@ function NavbarComponent({ counter }) {
             ))}
 
             {/* Toggle theme button */}
-            <button onClick={toggleTheme} className={css({
-              padding: '8px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              color: isDarkMode ? 'white' : 'black',
-              display: 'flex',
-              alignItems: 'center',
-              fontSize: '1.5rem',
-              transition: 'color 0.3s ease, transform 0.2s',
-              '&:hover': { color: isDarkMode ? '#fcd34d' : '#fbbf24', transform: 'rotate(20deg)' },
-            })}>
-              {isDarkMode ? <FaSun className={css({ color: '#fbbf24' })} /> : <IoMoonSharp className={css({ color: '#4c51bf' })} />}
+            <button
+              onClick={toggleTheme}
+              className={css({
+                padding: '8px',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                color: isDarkMode ? 'white' : 'black',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '1.5rem',
+                transition: 'color 0.3s ease, transform 0.2s',
+                '&:hover': { color: isDarkMode ? '#fcd34d' : '#fbbf24', transform: 'rotate(20deg)' },
+              })}
+              data-testid="toggle-dark-mode" // Agregado para identificar el botón en las pruebas
+            >
+              {isDarkMode ? (
+                <FaSun className={css({ color: '#fbbf24' })} />
+              ) : (
+                <IoMoonSharp className={css({ color: '#4c51bf' })} />
+              )}
             </button>
 
             {/* Cart button */}
