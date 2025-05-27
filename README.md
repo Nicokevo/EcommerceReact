@@ -1,26 +1,28 @@
-# Drift Style - Ecommerce de Camperas Deportivas
+# Drift Style - Sports Jackets Ecommerce
 
-¡Bienvenido a **Drift Style**! Un ecommerce diseñado para ofrecerte las mejores camperas deportivas, combinando estilo y funcionalidad.
+Welcome to **Drift Style**! An ecommerce platform designed to offer you the best sports jackets, combining style and functionality.
 
 ---
 
-## **Características Principales**
+## **Main Features**
 
-- **Diseño Moderno**: Construido con React y Vite para una experiencia de usuario rápida y fluida.
-- **Estilos Personalizados**: Implementación con Panda CSS para un diseño responsivo y moderno.
-- **Animaciones Suaves**: Usamos `framer-motion` para agregar dinamismo al sitio.
-- **Gestión de Productos**: Presentación de productos con imágenes, descripciones y precios.
-- **Notificaciones**: Uso de `react-toastify` para mensajes claros y efectivos.
-- **Carrito de Compras**: Funcionalidad integrada para gestionar las compras de los usuarios.
+- **Modern Design**: Built with React and Vite for a fast and smooth user experience.
+- **Custom Styles**: Responsive and modern design using Panda CSS.
+- **Smooth Animations**: Powered by `framer-motion` for dynamic UI effects.
+- **Product Management**: Display of products with images, descriptions, and prices.
+- **Notifications**: Uses `react-toastify` for clear and effective user messages.
+- **Shopping Cart**: Integrated cart functionality for managing user purchases.
 
 ---
 
 ![image](https://github.com/user-attachments/assets/6c389e2a-de20-49e6-9f4b-524a64f0a334)
 
-## **Demo deployada en Vercel**
+## **Live Demo on Vercel**
 https://ecommerce-react-drift-style.vercel.app/
+
 ---
-## **Tecnologías Utilizadas**
+
+## **Tech Stack**
 
 - **Frontend**:
   - React
@@ -30,42 +32,117 @@ https://ecommerce-react-drift-style.vercel.app/
   - React Icons
 
 - **Backend**:
-  - Firebase (Autenticación, Base de Datos)
+  - Firebase (Authentication, Database)
 
-- **Herramientas de Desarrollo**:
+- **Development Tools**:
   - Vite
   - ESLint
 
 ---
 
-## **Instalación**
+## **Installation**
 
-1. Clona este repositorio:
+1. Clone this repository:
    ```bash
    git clone https://github.com/Nicokevo/EcommerceReact.git
    cd EcommerceReact
    ```
 
-2. Instala las dependencias:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Inicia el servidor de desarrollo:
+3. Start the development server:
    ```bash
    npm run dev
    ```
 
 ---
 
-## **Scripts Disponibles**
+## **Available Scripts**
 
-En el proyecto puedes ejecutar los siguientes comandos:
+You can run the following commands in the project:
 
-- **`npm run dev`**: Inicia el servidor de desarrollo.
-- **`npm run build`**: Genera una versión optimizada para producción.
-- **`npm run preview`**: Previsualiza el proyecto después de construirlo.
-- **`npm run panda`**: Ejecuta Panda CSS para compilar los estilos.
-- **`npm run panda:watch`**: Observa y compila cambios en los estilos.
+- **`npm run dev`**: Start the development server.
+- **`npm run build`**: Build the app for production.
+- **`npm run preview`**: Preview the production build.
+- **`npm run panda`**: Compile Panda CSS styles.
+- **`npm run panda:watch`**: Watch and compile Panda CSS styles on changes.
 
 ---
+
+## **Features**
+
+- Responsive design for desktop and mobile
+- Product catalog with categories and offers
+- Shopping cart with persistent state
+- Dark mode toggle
+- End-to-end testing with Playwright
+- Unit and integration testing with Jest
+- Accessible and user-friendly UI
+
+---
+
+## **Project Structure**
+
+```
+EcommerceReact/
+├── public/
+├── src/
+│   ├── components/
+│   ├── context/
+│   ├── hooks/
+│   ├── pages/
+│   ├── styles/
+│   └── App.jsx / App.tsx
+├── styled-system/
+│   └── styles.css
+├── test/
+│   └── playwright-ts-project/
+├── package.json
+└── README.md
+```
+
+---
+
+## **Testing**
+
+### End-to-End (Playwright)
+
+- Go to the Playwright project directory:
+  ```bash
+  cd test/playwright-ts-project
+  ```
+- Run Playwright tests:
+  ```bash
+  npx playwright test
+  ```
+- View the HTML report:
+  ```bash
+  npx playwright show-report
+  ```
+
+### Unit/Integration (Jest)
+
+- Run all Jest tests:
+  ```bash
+  npm run test
+  ```
+- Run tests with coverage:
+  ```bash
+  npm run test:coverage
+  ```
+
+---
+
+## **Accessibility**
+
+- The UI is designed to be accessible and keyboard-friendly.
+- Automated accessibility checks are included in the Playwright test suite.
+
+---
+
+## **Contributing**
+
+Contributions are welcome! Please open an issue or submit a pull request.
